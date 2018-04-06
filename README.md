@@ -1,1 +1,5 @@
 # README
+
+```bash
+$ npm install
+```
