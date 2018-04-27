@@ -3,9 +3,15 @@ export default class Base
     constructor(model = null)
     {
         this._model = model;
+        this._beforeInit();
     }
+
     _beforeInit()
-    {}
+    {
+        /* eslint no-console: 0 */
+        console.warn('Method _beforeInit() should be override!');
+    }
+
     _afterInit()
     {
         this._applyModelValues();

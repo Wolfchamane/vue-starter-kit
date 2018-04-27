@@ -27,7 +27,7 @@ export function Core()
                     this.i18n.loadTranslations();
                     resolve();
                 }
-                catch(error)
+                catch (error)
                 {
                     reject(error);
                 }

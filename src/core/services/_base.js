@@ -1,11 +1,15 @@
 /* eslint new-cap: 0 */
-import RequestFirebaseBase from '../request/firebase/_base';
 export default class ServiceBase
 {
-    constructor(path = '', model = null)
+    constructor(request = null, path = '', model = null)
     {
-        this.request = new RequestFirebaseBase(path);
+        this.request = request;
         this.model = model;
+
+        if (typeof this.request === 'function')
+        {
+            this.request = new this.request(path);
+        }
     }
 
     _createModel(data = null)
@@ -35,6 +39,22 @@ export default class ServiceBase
         this.request.params = Object.assign(this.request.params || {}, params || {});
         this.request.method = 'POST';
         this.request.body = payload;
+        return this.request.generateRequest().then(this._createModel.bind(this));
+    }
+
+    create(params = null, payload = null)
+    {
+        this.request.params = Object.assign(this.request.params || {}, params || {});
+        this.request.method = 'PUT';
+        this.request.body = payload;
+        return this.request.generateRequest().then(this._createModel.bind(this));
+    }
+
+    remove(params = null)
+    {
+        this.request.params = Object.assign(this.request.params || {}, params || {});
+        this.request.method = 'DELETE';
+        this.request.body = null;
         return this.request.generateRequest().then(this._createModel.bind(this));
     }
 }
